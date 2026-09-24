@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Gerador de curriculos com inteligencia artificial.">
+	<title>CurriculoAI | Gerador de curriculos</title>
+	<link rel="stylesheet" href="gerador.css">
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="#inicio"><span class="brand-mark">C</span><span>Curriculo<span class="brand-accent">AI</span></span></a>
+		<nav aria-label="Navegacao principal">
+			<a href="#como-funciona">Como funciona</a>
+			<a href="#preview">Previa</a>
+		</nav>
+	</header>
+
+	<main id="inicio" class="app-shell">
+		<section class="intro" aria-labelledby="page-title">
+			<p class="kicker">Seu proximo passo profissional</p>
+			<h1 id="page-title">Um curriculo claro.<br><em>Uma oportunidade mais perto.</em></h1>
+			<p class="intro-copy">Preencha seus dados e receba uma apresentacao profissional pensada para destacar seu potencial.</p>
+			<div class="cta-row">
+				<a href="#resume-form" class="primary-button cta-primary">Gerar meu curriculo</a>
+				<a href="#preview" class="secondary-button">Ver previa</a>
+			</div>
+			<div class="trust-row"><span>Sem cadastro</span><span>100% editavel</span><span>Pronto para PDF</span></div>
+		</section>
+
+		<section class="workspace" aria-label="Gerador de curriculo">
+			<form id="resume-form" class="form-panel">
+				<div class="panel-heading"><div><p class="panel-label">01 / Seus dados</p><h2>Vamos montar seu perfil</h2></div><span class="step-badge">Comece aqui</span></div>
+				<div class="form-grid">
+					<label class="field field-wide">Nome completo<input id="name" name="name" type="text" placeholder="Ex.: Guilherme Almeida" required></label>
+					<label class="field">Cargo ou objetivo<input id="target" name="target" type="text" placeholder="Ex.: Desenvolvedor Front-end" required></label>
+					<label class="field">Localizacao<input id="location" name="location" type="text" placeholder="Ex.: Paulista, PE"></label>
+					<label class="field">E-mail<input id="email" name="email" type="email" placeholder="voce@email.com"></label>
+					<label class="field">LinkedIn<input id="linkedin" name="linkedin" type="url" placeholder="linkedin.com/in/seu-perfil"></label>
+					<label class="field">Formacao<input id="education" name="education" type="text" placeholder="Ex.: ADS - 1o periodo"></label>
+				</div>
+				<label class="field">Experiencia profissional<textarea id="experience" name="experience" rows="4" placeholder="Conte onde voce trabalha, seu cargo e o que faz no dia a dia."></textarea></label>
+				<label class="field">Competencias <span class="hint">Separe por virgulas</span><input id="skills" name="skills" type="text" placeholder="Ex.: HTML, CSS, suporte de TI, trabalho em equipe"></label>
+				<div class="profile-field"><div class="profile-label-row"><label class="field-label" for="profile">Perfil profissional</label><button id="generate-profile" class="ai-button" type="button"><span aria-hidden="true">✦</span> Gerar com IA</button></div><textarea id="profile" name="profile" rows="5" placeholder="Clique em 'Gerar com IA' para criar seu resumo profissional ou escreva/edite o texto aqui."></textarea><p id="ai-status" class="ai-status" role="status" aria-live="polite"></p></div>
+				<div class="form-footer"><p><span class="spark">✦</span> A IA vai sugerir seu resumo profissional.</p><button class="primary-button" type="submit">Gerar meu curriculo <span aria-hidden="true">→</span></button></div>
+			</form>
+
+			<aside id="preview" class="preview-panel" aria-labelledby="preview-title">
+				<div class="preview-top"><div><p class="panel-label">02 / Previa</p><h2 id="preview-title">Seu curriculo</h2></div><button id="print-button" class="icon-button" type="button" title="Imprimir ou salvar em PDF" aria-label="Imprimir ou salvar em PDF">↗</button></div>
+				<article class="resume-preview">
+					<header class="resume-header"><div><p id="preview-target" class="preview-kicker">SEU OBJETIVO PROFISSIONAL</p><h3 id="preview-name">Seu nome aparece aqui</h3></div><div id="preview-contact" class="preview-contact">Preencha seus dados</div></header>
+					<section class="preview-section"><h4>Perfil profissional</h4><p id="preview-summary">Sua apresentacao profissional sera gerada aqui.</p></section>
+					<section class="preview-section"><h4>Experiencia</h4><p id="preview-experience">Adicione sua experiencia para preencher esta secao.</p></section>
+					<section class="preview-section"><h4>Formacao</h4><p id="preview-education">Adicione sua formacao academica.</p></section>
+					<section class="preview-section"><h4>Competencias</h4><div id="preview-skills" class="preview-skills"><span>Suas competencias</span></div></section>
+				</article>
+			</aside>
+		</section>
+
+		<section id="como-funciona" class="how-section"><p class="panel-label">03 / O processo</p><h2>Da sua historia para uma nova oportunidade.</h2><div class="how-grid"><article><span>01</span><h3>Conte sua experiencia</h3><p>Insira seus dados do jeito que voce falaria com uma pessoa.</p></article><article><span>02</span><h3>Receba uma sugestao</h3><p>O sistema organiza suas informacoes em uma linguagem profissional.</p></article><article><span>03</span><h3>Edite e compartilhe</h3><p>Revise o resultado, salve em PDF e envie para as suas oportunidades.</p></article></div></section>
+	</main>
+	<footer class="site-footer">CurriculoAI · Projeto de estudo em Front-end e Inteligencia Artificial</footer>
+	<script src="gerador.js"></script>
+</body>
+</html>
