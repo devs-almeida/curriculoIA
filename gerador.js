@@ -1,7 +1,9 @@
 const form = document.querySelector("#resume-form");
 const printButton = document.querySelector("#print-button");
 const generateProfileButton = document.querySelector("#generate-profile");
+const clearFormButton = document.querySelector("#clear-form");
 const aiStatus = document.querySelector("#ai-status");
+const themeToggle = document.querySelector("#theme-toggle");
 
 const fields = {
   name: document.querySelector("#name"),
@@ -26,6 +28,115 @@ const preview = {
 };
 
 let lastSummaryVariation = -1;
+
+function applyTheme(theme) {
+  const isDark = theme === "dark";
+  document.body.classList.toggle("dark-theme", isDark);
+  if (themeToggle) {
+    themeToggle.innerHTML = isDark ? "☾" : "☀";
+    themeToggle.setAttribute("aria-label", isDark ? "Ativar tema claro" : "Ativar tema escuro");
+  }
+}
+
+applyTheme(localStorage.getItem("curriculoai-theme") || "light");
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.body.classList.contains("dark-theme") ? "dark" : "light";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    localStorage.setItem("curriculoai-theme", nextTheme);
+    applyTheme(nextTheme);
+  });
+}
+
+const orthographyCorrections = [
+  ["nao", "não"],
+  ["Nao", "Não"],
+  ["voce", "você"],
+  ["Voce", "Você"],
+  ["ta", "está"],
+  ["Ta", "Está"],
+  ["ja", "já"],
+  ["Ja", "Já"],
+  ["oq", "o que"],
+  ["Oq", "O que"],
+  ["pq", "porque"],
+  ["Pq", "Porque"],
+  ["pra", "para"],
+  ["Pra", "Para"],
+  ["tecnologia", "tecnologia"],
+  ["ciencia", "ciência"],
+  ["Ciencia", "Ciência"],
+  ["curriculo", "currículo"],
+  ["Curriculo", "Currículo"],
+  ["apresentacao", "apresentação"],
+  ["Apresentacao", "Apresentação"],
+  ["inteligencia", "inteligência"],
+  ["Inteligencia", "Inteligência"],
+  ["trabalho em equipe", "trabalho em equipe"],
+  ["organizacao", "organização"],
+  ["Organizacao", "Organização"],
+  ["responsavel", "responsável"],
+  ["Responsavel", "Responsável"],
+  ["qualidade", "qualidade"],
+  ["sua experiencia", "sua experiência"],
+  ["Sua experiencia", "Sua experiência"],
+  ["comunicacao", "comunicação"],
+  ["Comunicacao", "Comunicação"],
+  ["metas", "metas"],
+  ["adaptação", "adaptação"],
+  ["adaptacao", "adaptação"],
+  ["Adaptacao", "Adaptação"],
+  ["proatividade", "proatividade"],
+  ["bem sucedido", "bem-sucedido"],
+  ["Bem sucedido", "Bem-sucedido"],
+  ["esforco", "esforço"],
+  ["Esforco", "Esforço"],
+  ["resultado", "resultado"],
+  ["resultados", "resultados"],
+  ["resultados", "resultados"],
+  ["ao inves", "em vez"],
+  ["Ao inves", "Em vez"],
+  ["e-mail", "e-mail"],
+  ["email", "e-mail"]
+];
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function autoCorrectText(text) {
+  if (!text) return "";
+
+  let corrected = text;
+
+  for (const [wrong, right] of orthographyCorrections) {
+    const regex = new RegExp(`\\b${escapeRegex(wrong)}\\b`, "gi");
+    corrected = corrected.replace(regex, match => {
+      return match.charAt(0) === match.charAt(0).toUpperCase()
+        ? right.charAt(0).toUpperCase() + right.slice(1)
+        : right;
+    });
+  }
+
+  corrected = corrected
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:!?])/g, "$1")
+    .replace(/([,.;:!?])(?=[A-Za-zÀ-ÿ])/g, "$1 ")
+    .trim();
+
+  return corrected;
+}
+
+function applyAutoCorrection(event) {
+  const field = event.target;
+  if (!field || !["TEXT", "TEXTAREA"].includes(field.tagName)) return;
+
+  const corrected = autoCorrectText(field.value);
+  if (corrected !== field.value) {
+    field.value = corrected;
+  }
+}
 
 function createSummary(name, target, experience, skills) {
   const person = name || "Profissional em desenvolvimento";
@@ -83,8 +194,26 @@ function updatePreview() {
   preview.skills.innerHTML = skills ? skills.split(",").map(skill => `<span>${skill.trim()}</span>`).join("") : "<span>Suas competencias</span>";
 }
 
-Object.values(fields).forEach(field => field.addEventListener("input", updatePreview));
+Object.values(fields).forEach(field => {
+  if (field) {
+    field.addEventListener("input", event => {
+      applyAutoCorrection(event);
+      updatePreview();
+    });
+  }
+});
+
 generateProfileButton.addEventListener("click", generateProfile);
+clearFormButton.addEventListener("click", () => {
+  const shouldClear = window.confirm("Deseja limpar todos os dados do formulário?");
+  if (!shouldClear) return;
+
+  form.reset();
+  aiStatus.textContent = "";
+  lastSummaryVariation = -1;
+  updatePreview();
+  fields.name.focus();
+});
 form.addEventListener("submit", event => {
   event.preventDefault();
   if (!fields.profile.value.trim()) generateProfile();
