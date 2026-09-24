@@ -10,10 +10,13 @@
 <body>
 	<header class="topbar">
 		<a class="brand" href="#inicio"><span class="brand-mark">C</span><span>Curriculo<span class="brand-accent">AI</span></span></a>
-		<nav aria-label="Navegacao principal">
-			<a href="#como-funciona">Como funciona</a>
-			<a href="#preview">Previa</a>
-		</nav>
+		<div class="topbar-actions">
+			<nav aria-label="Navegacao principal">
+				<a href="#como-funciona">Como funciona</a>
+				<a href="#preview">Previa</a>
+			</nav>
+			<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Ativar tema escuro">☀</button>
+		</div>
 	</header>
 
 	<main id="inicio" class="app-shell">
@@ -42,7 +45,7 @@
 				<label class="field">Experiencia profissional<textarea id="experience" name="experience" rows="4" placeholder="Conte onde voce trabalha, seu cargo e o que faz no dia a dia."></textarea></label>
 				<label class="field">Competencias <span class="hint">Separe por virgulas</span><input id="skills" name="skills" type="text" placeholder="Ex.: HTML, CSS, suporte de TI, trabalho em equipe"></label>
 				<div class="profile-field"><div class="profile-label-row"><label class="field-label" for="profile">Perfil profissional</label><button id="generate-profile" class="ai-button" type="button"><span aria-hidden="true">✦</span> Gerar com IA</button></div><textarea id="profile" name="profile" rows="5" placeholder="Clique em 'Gerar com IA' para criar seu resumo profissional ou escreva/edite o texto aqui."></textarea><p id="ai-status" class="ai-status" role="status" aria-live="polite"></p></div>
-				<div class="form-footer"><p><span class="spark">✦</span> A IA vai sugerir seu resumo profissional.</p><button class="primary-button" type="submit">Gerar meu curriculo <span aria-hidden="true">→</span></button></div>
+				<div class="form-footer"><p><span class="spark">✦</span> A IA vai sugerir seu resumo profissional.</p><div class="form-actions"><button id="clear-form" class="secondary-button clear-button" type="button">Limpar formulário</button><button class="primary-button" type="submit">Gerar meu curriculo <span aria-hidden="true">→</span></button></div></div>
 			</form>
 
 			<aside id="preview" class="preview-panel" aria-labelledby="preview-title">
